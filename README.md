@@ -1,7 +1,15 @@
 <!-- Note: This README.md file was automatically generated. Plase run `make readme` to generate a new one. -->
 
-# PM-JESUS (A blessed front-end for every package manager\*)
+# PM-JESUS (A blessed front-end for every package manager\*) 🎶
 > Your own, package manager, Jesus.
+> Someone to install your files,
+> Someone who compiles.
+> Your own, package manager, Jesus.
+>
+> Cross-platform and you're all alone,
+> Flesh and bone by the command-o
+> TTY receiver,
+> I'll make you a believer.
 
 <p align="center">
   <img width="217" alt="Screenshot 2024-04-27 at 17 09 31" src="https://github.com/sebastiancarlos/pm-jesus/assets/88276600/28fcfb0b-e200-43a8-b72c-58784b8c5b41">
