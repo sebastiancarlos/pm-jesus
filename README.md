@@ -18,6 +18,8 @@ PRs are open!)
 Be like that man, and don't let your multiple package manager take all your
 time! Build your own cross-platform scripts, or use these!
 
+**Disclaimer:** These scripts are for my personal use, written in a way that makes sense to me. I only open-sourced them as a joke and as an example of how reinventing your own wheel is not that hard sometimes, and comes with the benefit of doing just what you need it to do. For a more complete solution, check [sysget](https://github.com/emilengler/sysget).
+
 ## Installation
 
 Grab your favorite shell and get going:
