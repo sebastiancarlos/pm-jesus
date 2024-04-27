@@ -12,7 +12,7 @@ PRs are open!)
 > of wasting his possessions."
 - Luke 16:1
 
-Be like that man, and don't let your multiple package manager to take all your
+Be like that man, and don't let your multiple package manager take all your
 time! Build your own cross-platform scripts, or use these!
 
 ## Installation
