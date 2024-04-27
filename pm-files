@@ -1,0 +1,40 @@
+#! /usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+if [[ -L "${BASH_SOURCE[0]}" ]]; then
+    SCRIPT_DIR="$(readlink "${BASH_SOURCE[0]}")"
+    SCRIPT_DIR="$( cd "$( dirname "${SCRIPT_DIR}" )" >/dev/null 2>&1 && pwd )"
+fi
+
+# get current package manager, populates 'package_manager'
+source ${SCRIPT_DIR}/lib/package-manager.sh
+
+if [[ "$#" -eq 0 || "$1" == "--help" ]]; then
+  echo "Usage: pm-files [package]"
+  echo "List all files installed by a package."
+  if [[ "$#" -eq 0 ]]; then
+    exit 1
+  fi
+  exit 0
+fi
+
+green='\033[0;32m'
+cyan='\033[0;36m'
+bold='\033[1m'
+reset='\033[0m'
+
+if [[ ${package_manager} == 'pacman' ]]; then
+  # check local package if the package is installed
+  is_package_installed=$(pacman --query --info "$@" 2>/dev/null)
+  if [[ -n "$is_package_installed" ]]; then
+    echo -e "${green}Package ${bold}$@${reset}${green} is installed${reset}" >&2
+    pacman --query --list "$@" # -Ql
+  else
+    # if not installed, check repos
+    echo -e "${cyan}Package ${bold}$@${reset}${cyan} is not installed${reset}" >&2
+    pacman --files --list "$@" # -Fl
+  fi
+elif [[ ${package_manager} == 'brew' ]]; then
+  # TODO: Test this
+  brew list "$@"
+fi

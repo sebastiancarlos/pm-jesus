@@ -1,0 +1,23 @@
+#! /usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+if [[ -L "${BASH_SOURCE[0]}" ]]; then
+    SCRIPT_DIR="$(readlink "${BASH_SOURCE[0]}")"
+    SCRIPT_DIR="$( cd "$( dirname "${SCRIPT_DIR}" )" >/dev/null 2>&1 && pwd )"
+fi
+
+# get current package manager, populates 'package_manager'
+source ${SCRIPT_DIR}/lib/package-manager.sh
+
+if [[ "$#" -eq 1 && "$1" == "--help" ]]; then
+  echo "Usage: pm-install-local" 
+  echo "Build and install a package not from the system's list of available packages."
+  echo "Must run in directory containing a PKGBUILD file. Usually from the AUR."
+  exit 0
+fi
+
+if [[ ${package_manager} == 'pacman' ]]; then
+  makepkg --syncdeps --install
+elif [[ ${package_manager} == 'brew' ]]; then
+  echo "Not implemented"
+fi

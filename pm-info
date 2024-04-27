@@ -1,0 +1,48 @@
+#! /usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+if [[ -L "${BASH_SOURCE[0]}" ]]; then
+    SCRIPT_DIR="$(readlink "${BASH_SOURCE[0]}")"
+    SCRIPT_DIR="$( cd "$( dirname "${SCRIPT_DIR}" )" >/dev/null 2>&1 && pwd )"
+fi
+
+# get current package manager, populates 'package_manager'
+source ${SCRIPT_DIR}/lib/package-manager.sh
+
+if [[ "$#" -eq 0 || "$1" == "--help" ]]; then
+  echo "Usage: pm-info [package]"
+  echo "Get information about a package."
+  if [[ "$#" -eq 0 ]]; then
+    exit 1
+  fi
+  exit 0
+fi
+
+green='\033[0;32m'
+cyan='\033[0;36m'
+bold='\033[1m'
+reset='\033[0m'
+
+if [[ ${package_manager} == 'pacman' ]]; then
+  # first try to get info about installed package
+  installed_info=$(pacman --query --info --info "$@" 2>/dev/null) # -Qi
+  if [[ -n "$installed_info" ]]; then
+    echo -e "${green}Package ${bold}$@${reset}${green} is installed:${reset}" >&2
+    echo "$installed_info"
+    echo "${bold}Dependencies:${reset}"
+    pactree "$@"
+  else
+    # if not installed, get info about package in repos
+    non_installed_info=$(pacman --sync --info "$@" 2>/dev/null) # -Si
+    if [[ -n "$non_installed_info" ]]; then
+      echo -e "${cyan}Package ${bold}$@${reset}${cyan} is not installed:${reset}" >&2
+      echo "$non_installed_info"
+      echo "${bold}Dependencies:${reset}"
+      pactree --sync "$@"
+    else
+      echo "Package not found."
+    fi
+  fi
+elif [[ ${package_manager} == 'brew' ]]; then
+  brew info "$@"
+fi

@@ -1,0 +1,40 @@
+#! /usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+if [[ -L "${BASH_SOURCE[0]}" ]]; then
+    SCRIPT_DIR="$(readlink "${BASH_SOURCE[0]}")"
+    SCRIPT_DIR="$( cd "$( dirname "${SCRIPT_DIR}" )" >/dev/null 2>&1 && pwd )"
+fi
+
+# get current package manager, populates 'package_manager'
+source ${SCRIPT_DIR}/lib/package-manager.sh
+
+if [[ "$#" -eq 0 || "$1" == "--help" ]]; then
+  echo "Usage: pm-dependencies [package]"
+  echo "List all dependencies of a package."
+  exit 0
+fi
+
+bold='\033[1m'
+cyan='\033[0;36m'
+reset='\033[0m'
+
+if [[ ${package_manager} == 'pacman' ]]; then
+  echo "${bold}Dependencies:${reset}"
+  output=$(pactree "$@")
+  # if output is only a line long (name of package), then it has no dependencies
+  if [[ $(echo "$output" | wc -l) -eq 1 ]]; then
+    echo "${cyan}N/A${reset}"
+  else
+    echo "$output"
+  fi
+  echo "${bold}Reverse dependencies:${reset}"
+  output=$(pactree --reverse "$@")
+  if [[ $(echo "$output" | wc -l) -eq 1 ]]; then
+    echo "${cyan}N/A${reset}"
+  else
+    echo "$output"
+  fi
+elif [[ ${package_manager} == 'brew' ]]; then
+  brew deps "$@"
+fi

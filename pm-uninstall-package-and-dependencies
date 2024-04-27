@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+if [[ -L "${BASH_SOURCE[0]}" ]]; then
+    SCRIPT_DIR="$(readlink "${BASH_SOURCE[0]}")"
+    SCRIPT_DIR="$( cd "$( dirname "${SCRIPT_DIR}" )" >/dev/null 2>&1 && pwd )"
+fi
+
+# get current package manager, populates 'package_manager'
+source ${SCRIPT_DIR}/lib/package-manager.sh
+
+if [[ "$#" -eq 0 || "$1" == "--help" ]]; then
+  echo "Usage: pm-uninstall-package-and-dependencies [package]"
+  echo "Uninstall a package and all its dependencies."
+  if [[ "$#" -eq 0 ]]; then
+    exit 1
+  fi
+  exit 0
+fi
+if [[ ${package_manager} == 'pacman' ]]; then
+  sudo pacman --remove --recursive "$@" # -Rs
+elif [[ ${package_manager} == 'brew' ]]; then
+  echo "Not implemented, but check 'pm-uninstall-orphans'"
+  return 1
+fi

@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+if [[ "$#" -eq 0 || "$1" == "--help" ]]; then
+  echo "Usage: pm-search-local [package]"
+  echo "Search for a package in the list of installed packages."
+  if [[ "$#" -eq 0 ]]; then
+    exit 1
+  fi
+  exit 0
+fi
+pm-list | grep "$@"
