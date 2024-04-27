@@ -2,6 +2,8 @@
 
 # PM-JESUS (A blessed front-end for every package manager\*)
 
+<img width="651" alt="Screenshot 2024-04-27 at 17 08 21" src="https://github.com/sebastiancarlos/pm-jesus/assets/88276600/b3f049c2-6ac4-4b9a-a162-e32626e4b49e">
+
 > Your own, package manager, Jesus.
 
 \*that matters to me; currently Pacman and Homebrew (but my ~~DMs~~
