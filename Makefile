@@ -36,13 +36,13 @@ all: install
 .PHONY: install
 install: 
   @echo -e $(blue)Installing ...$(reset)
-  @./.internal-scripts/install $(bindir) $(libdir)
+  @./.internal-scripts/install $(DESTDIR)$(bindir) $(DESTDIR)$(libdir)
   @echo -e $(green)Installing DONE$(reset)
 
 .PHONY: uninstall
 uninstall:
   @echo -e $(blue)Uninstalling ...$(reset)
-  @./.internal-scripts/uninstall $(bindir) $(libdir)
+  @./.internal-scripts/uninstall $(DESTDIR)$(bindir) $(DESTDIR)$(libdir)
   @echo -e $(green)Uninstalling DONE$(reset)
 
 .PHONY: readme
