@@ -1,0 +1,18 @@
+#! /usr/bin/env bash
+
+# This script is meant to be called from 'make uninstall'
+# It takes 'bindir' (by default set to /usr/local/bin)
+# and 'libdir' (by default set to /usr/local/lib)
+
+set -e
+
+BINDIR=${1}
+LIBDIR=${2}
+
+# First delete the LIBDIR/pm-jesus folder
+rm -rf ${LIBDIR}/pm-jesus
+
+# Finally, delete all symlinks named after the ./pm-* files
+for file in pm-*; do
+  rm -f ${BINDIR}/${file}
+done

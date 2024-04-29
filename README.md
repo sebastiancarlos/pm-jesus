@@ -174,3 +174,4 @@ List all files installed by a package.
 
 Currently, only Pacman and Homebrew are supported. One because I have to work,
 the other because I'm based. Guess which is which.
+

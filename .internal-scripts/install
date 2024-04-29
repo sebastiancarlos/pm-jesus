@@ -1,0 +1,31 @@
+#! /usr/bin/env bash
+
+# This script is meant to be called from 'make install'
+# It takes 'bindir' (by default set to /usr/local/bin)
+# and 'libdir' (by default set to /usr/local/lib)
+
+set -e
+
+BINDIR=${1}
+LIBDIR=${2}
+
+# First, create the LIBDIR and BINDIR directories
+mkdir -p ${LIBDIR}
+mkdir -p ${BINDIR}
+
+# Copy all 'pm-*' scripts to LIBDIR/pm-jesus
+mkdir -p ${LIBDIR}/pm-jesus
+for file in pm-*; do
+    cp -p ${file} ${LIBDIR}/pm-jesus
+    echo "Copied ${file} to ${LIBDIR}/pm-jesus"
+done
+
+# Then copy the ./lib folder to LIBDIR/pm-jesus
+cp -p -r lib ${LIBDIR}/pm-jesus
+echo "Copied ./lib to ${LIBDIR}/pm-jesus"
+
+# Finally, create symlinks to all 'pm-*' scripts in BINDIR
+for file in pm-*; do
+    ln -s ${LIBDIR}/pm-jesus/${file} ${BINDIR}/${file}
+    echo "Created symlink to ${file} in ${BINDIR}"
+done
